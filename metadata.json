@@ -1,0 +1,6 @@
+{
+  "name": "EDCOM II Regional Cohort Attrition Dashboard",
+  "description": "Interactive analytical dashboard for CHED and EDCOM II higher education regional cohort attrition rates (2022-2025), descriptive statistics, diagnostics, and evidence-based recommendations.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
