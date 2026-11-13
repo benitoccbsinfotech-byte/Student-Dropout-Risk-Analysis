@@ -22,6 +22,7 @@ import { RegionalComparisonView } from './components/RegionalComparisonView';
 import { StatisticalAuditView } from './components/StatisticalAuditView';
 import { PolicyAndSourcesView } from './components/PolicyAndSourcesView';
 import { RegionDetailDrawer } from './components/RegionDetailDrawer';
+import educationalBackdrop from './assets/images/educational_campus_backdrop_1794578879842.jpg';
 
 type DashboardTab = 'overview' | 'comparison' | 'audit' | 'policy';
 
@@ -70,6 +71,7 @@ export default function App() {
     'Region VII',
   ]);
   const [exportMessage, setExportMessage] = useState<string | null>(null);
+  const [backdropError, setBackdropError] = useState(false);
 
   const stats2025 = useMemo(
     () => computeYearStats(REGIONAL_ATTRITION_DATA, 2025)!,
@@ -248,9 +250,27 @@ export default function App() {
       )}
 
       {/* Main Content Shell */}
-      <div className="flex-1 lg:pl-64 flex flex-col min-w-0">
+      <div className="flex-1 lg:pl-64 flex flex-col min-w-0 relative bg-[#F5F1FB]">
+        {/* Educational Campus & Academic Grid Background Layer */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none fixed inset-0 lg:left-64 z-0 overflow-hidden bg-[#F5F1FB]"
+        >
+          {!backdropError && (
+            <img
+              src={educationalBackdrop}
+              alt=""
+              referrerPolicy="no-referrer"
+              onError={() => setBackdropError(true)}
+              className="w-full h-full object-cover object-center opacity-[0.28] saturate-[0.8]"
+            />
+          )}
+          <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8FD]/72 via-[#F6F2FC]/80 to-[#F2ECFA]/88" />
+          <div className="absolute inset-0 bg-academic-grid" />
+        </div>
+
         {/* Top Bar Contract (single row, <= 56px tall) */}
-        <header className="sticky top-0 z-20 h-14 bg-white border-b border-[#E7E2F1] px-4 sm:px-6 flex items-center justify-between gap-4">
+        <header className="sticky top-0 z-20 h-14 bg-white/95 backdrop-blur-sm border-b border-[#E7E2F1] px-4 sm:px-6 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3 min-w-0">
             <button
               type="button"
@@ -295,10 +315,27 @@ export default function App() {
         </header>
 
         {/* Main Viewport */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-[1440px] w-full mx-auto space-y-6">
+        <main className="relative z-10 flex-1 p-4 sm:p-6 lg:p-8 max-w-[1440px] w-full mx-auto space-y-6">
           {/* Page Intro Header */}
-          <div className="bg-white border border-[#E7E2F1] rounded-lg p-5 sm:p-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
-            <div className="space-y-1.5 max-w-3xl">
+          <div className="relative overflow-hidden bg-white/95 border border-[#E7E2F1] rounded-lg p-5 sm:p-6 flex flex-col lg:flex-row lg:items-end justify-between gap-4">
+            {!backdropError && (
+              <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+                <img
+                  src={educationalBackdrop}
+                  alt=""
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-center opacity-[0.22] saturate-[0.8]"
+                />
+                <div
+                  className="absolute inset-0"
+                  style={{
+                    background:
+                      'linear-gradient(110deg, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.92) 55%, rgba(246,242,252,0.74) 100%)',
+                  }}
+                />
+              </div>
+            )}
+            <div className="relative z-10 space-y-1.5 max-w-3xl">
               <div className="text-xs font-medium text-[#5B21B6]">
                 Business Analytics · EDCOM II / CHED Cohort Data (2022–2025)
               </div>
@@ -320,12 +357,12 @@ export default function App() {
               </p>
             </div>
 
-            <div className="lg:text-right border-t lg:border-t-0 pt-3 lg:pt-0 border-[#E7E2F1] shrink-0">
-              <div className="text-[11px] font-medium text-slate-500">Presented by</div>
+            <div className="relative z-10 lg:text-right border-t lg:border-t-0 pt-3 lg:pt-0 border-[#E7E2F1] shrink-0">
+              <div className="text-[11px] font-medium text-slate-600">Presented by</div>
               <div className="text-xs font-semibold text-slate-900 mt-0.5">
                 Franco, Benito, Guingona, &amp; Magsanay
               </div>
-              <div className="text-xs text-slate-600">
+              <div className="text-xs text-slate-700">
                 BS Information Technology - 2B
               </div>
             </div>
